@@ -3,10 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>網頁</title>
-
+    <title>Jeff的網站</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .container { width: 90%; max-width: 1200px; margin: auto; text-align: center; padding: 20px; }
+        #model-container { width: 100%; height: 500px; background-color: #202020; margin-top: 20px; }
+        .description { margin-top: 20px; font-size: 18px; }
+    </style>
 </head>
 <body>
-    <h2> 111213073古景聿 </h2>
+    <div class="container">
+        <h2>Jeff的網站</h2>
+        <p class="description"> 3D 模型展示。</p>
+        <div id="model-container"></div>
+    </div>
+    
+    <script>
+        // 初始化 3D 場景
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.shadowMap.enabled = true;
+        renderer.setSize(window.innerWidth * 0.9, 500);
+        document.getElementById('model-container').appendChild(renderer.domElement);
+
+        // 添加光源
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+        directionalLight.position.set(3, 3, 3);
+        directionalLight.castShadow = true;
+        scene.add(directionalLight);
+        
+        const pointLight = new THREE.PointLight(0xffffff, 1.8, 100);
+        pointLight.position.set(0, 3, 5);
+        pointLight.castShadow = true;
+        scene.add(pointLight);
+
+        directionalLight.shadow.mapSize.width = 1024;
+        directionalLight.shadow.mapSize.height = 1024;
+        directionalLight.shadow.camera.near = 0.5;
+        directionalLight.shadow.camera.far = 50;
+
+        // 添加 OrbitControls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 2;
+        controls.maxDistance = 10;
+
+        // 變數儲存 3D 模型
+        let model;
+        const loader = new THREE.GLTFLoader();
+        loader.load('111213073_LOD0.glb', function(gltf) {
+            model = gltf.scene;
+            scene.add(model);
+            model.position.set(0, -1, 0);
+            model.scale.set(1, 1, 1);
+            model.traverse(function(node) {
+                if (node.isMesh) {
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                }
+            });
+        }, undefined, function(error) {
+            console.error('Error loading model:', error);
+        });
+
+        // 設定相機位置
+        camera.position.set(0, 1, 5);
+
+        // 動畫渲染（自動旋轉）
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            if (model) {
+                model.rotation.y += 0.005; // 讓模型慢慢旋轉
+            }
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
 </body>
 </html>
