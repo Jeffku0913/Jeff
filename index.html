@@ -1,86 +1,44 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeff的網站 - 哆啦A夢 3D 展示</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
-    <style>
-        body { margin: 0; font-family: Arial, sans-serif; background-color: #111; color: #fff; }
-        .container { width: 90%; max-width: 1200px; margin: auto; text-align: center; padding: 20px; }
-        #model-container { width: 100%; height: 500px; background-color: #202020; margin-top: 20px; border-radius: 12px; }
-        .description { margin-top: 20px; font-size: 18px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>夢幻廚房 3D 預覽</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    model-viewer {
+      width: 90vw;
+      height: 80vh;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Jeff的網站</h2>
-        <p class="description">3D 模型展示：哆啦A夢（標準版）</p>
-        <div id="model-container"></div>
-    </div>
-
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth * 0.9 / 500, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth * 0.9, 500);
-        renderer.shadowMap.enabled = true;
-        document.getElementById('model-container').appendChild(renderer.domElement);
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-        scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        directionalLight.position.set(3, 5, 5);
-        directionalLight.castShadow = true;
-        scene.add(directionalLight);
-
-        const ground = new THREE.Mesh(
-            new THREE.PlaneGeometry(10, 10),
-            new THREE.ShadowMaterial({ opacity: 0.3 })
-        );
-        ground.rotation.x = -Math.PI / 2;
-        ground.receiveShadow = true;
-        ground.position.y = -1.2;
-        scene.add(ground);
-
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.screenSpacePanning = false;
-        controls.minDistance = 2;
-        controls.maxDistance = 10;
-
-        let model;
-        const loader = new THREE.GLTFLoader();
-        loader.load('doraemon_real.glb', function(gltf) {
-            model = gltf.scene;
-            scene.add(model);
-            model.position.set(0, -1, 0);
-            model.scale.set(1, 1, 1);
-            model.traverse(function(node) {
-                if (node.isMesh) {
-                    node.castShadow = true;
-                    node.receiveShadow = true;
-                }
-            });
-        }, undefined, function(error) {
-            console.error('Error loading model:', error);
-        });
-
-        camera.position.set(0, 1, 5);
-
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            if (model) {
-                model.rotation.y += 0.005;
-            }
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+  <h1>夢幻廚房 3D 模型預覽</h1>
+  <model-viewer 
+    src="kitchen_final_upgraded.glb" 
+    alt="夢幻廚房" 
+    auto-rotate 
+    camera-controls 
+    exposure="1" 
+    shadow-intensity="1" 
+    ar
+  ></model-viewer>
 </body>
 </html>
