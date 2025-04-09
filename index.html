@@ -1,36 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>夢幻廚房 3D 預覽</title>
+  <title>夢幻木質廚房 3D 預覽</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
     body {
       margin: 0;
-      background-color: #f5f5f5;
+      background: linear-gradient(to bottom, #f0ebe1, #ffffff);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      font-family: sans-serif;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
     model-viewer {
       width: 90vw;
       height: 80vh;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
+      background-color: #fdfbf8;
+      border: 2px solid #d7cbb8;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
     h1 {
-      color: #333;
+      color: #5b4636;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    p {
+      color: #7c6f61;
+      font-size: 1rem;
+      margin-top: 0.2rem;
       margin-bottom: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>夢幻廚房 3D 模型預覽</h1>
+  <h1>夢幻木質廚房 3D 模型預覽</h1>
+  <p>自然木質風格 × 乾淨整潔空間</p>
   <model-viewer 
     src="kitchen_final_upgraded.glb" 
     alt="夢幻廚房" 
@@ -42,3 +52,4 @@
   ></model-viewer>
 </body>
 </html>
+
